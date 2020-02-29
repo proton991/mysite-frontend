@@ -4,6 +4,7 @@ function resolve(dir) {
     return path.join(__dirname, './', dir)
 }
 module.exports = {
+    productionSourceMap: false,
     chainWebpack: config => {
         config.plugin('define').tap(args => {
             const argv = process.argv
@@ -58,16 +59,16 @@ module.exports = {
             msTileImage: './iconAvg.png'
         }
     },
-    devServer: {
-        proxy: {
-            '/api': {
-                ws: true,
-                target: 'http://localhost:8080',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': '/api'
-                }
-            }
-        }
-    }
+    // devServer: {
+    //     proxy: {
+    //         '/api': {
+    //             ws: true,
+    //             target: 'http://localhost:8080',
+    //             changeOrigin: true,
+    //             pathRewrite: {
+    //                 '^/api': '/api'
+    //             }
+    //         }
+    //     }
+    // }
 };

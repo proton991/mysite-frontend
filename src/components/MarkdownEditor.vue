@@ -15,6 +15,14 @@
                 placeholder="Write your title here"
                 v-model="article.title"
         ></b-input>
+        <span class="bar-tab2">Category</span>
+        <b-form-select
+                class="offset-7"
+                v-model="article.categoryName"
+                :options="categories"
+                required
+        ></b-form-select>
+
         <b-button
                 @click="post"
                 variant="danger"
@@ -28,6 +36,16 @@
       </b-form>
 
     </div>
+<!--    <div class="tag-bar">-->
+<!--      <b-form-tags placeholder="Add tag for your article..."-->
+<!--                   v-model="tags"-->
+<!--                   tag-pills-->
+<!--                   size="lg"-->
+<!--                   class="offset-2"-->
+<!--                   tag-variant="primary"-->
+<!--                   style="width: 30%;">-->
+<!--      </b-form-tags>-->
+<!--    </div>-->
     <mavon-editor
             :ishljs=true
             language="en"
@@ -46,7 +64,7 @@
 <script>
     import {Message} from 'element-ui'
     // eslint-disable-next-line no-unused-vars
-    import {getArticleById, postArticle, editArticle} from "@/api/article";
+    import {getArticleById, postArticle, editArticle, getArticleCategory} from "@/api/article";
 
     export default {
         name: "MarkdownEditor",
@@ -57,8 +75,13 @@
                     bodyMd: '',
                     bodyHtml: '',
                     author: '',
-                    state: ''
-                }
+                    state: '',
+                    categoryId: '',
+                    categoryName: ''
+                },
+                tags: [],
+                categories: [],
+                categoryMap: {}
             }
         },
         created: function () {
@@ -69,9 +92,24 @@
                     this.article.bodyMd = data.bodyMd;
                     this.article.bodyHtml = data.bodyHtml;
                     this.article.author = this.$store.state.user.name;
-                    console.log(this.article);
+                    if (data.extra.category === null) {
+                        this.article.categoryName = 'ALL';
+                        this.article.categoryId = -1;
+                    } else {
+                        this.article.categoryName = data.extra.category.categoryName;
+                        this.article.categoryId = data.extra.category.categoryId;
+                    }
                 });
             }
+            getArticleCategory().then(response => {
+                const {data} = response;
+                const objList = data;
+                for (let i = 0; i < objList.length; i++) {
+                    this.categories.push(objList[i].categoryName);
+                    this.categoryMap[objList[i].categoryName] = objList[i].categoryId;
+                }
+            })
+            console.log(this.categoryMap);
         },
         methods: {
             onChange(val, render) {
@@ -79,52 +117,40 @@
                 this.article.bodyHtml = render;
             },
             save(val, render) {
-                if (this.$route.params["id"] !== undefined) {
-                    if (this.article.title === '') {
-                        Message({
-                            message: "Title can't be null!",
-                            type: "error",
-                            duration: 800
-                        });
-
-                    } else {
-                        this.article.bodyHtml = render;
-                        this.article.bodyMd = val;
-                        this.article.author = this.$store.user.name;
-                        this.article.state = 'draft';
-                        editArticle(this.$route.params["id"], this.article);
-                    }
+                if (this.article.title === '') {
+                    Message({
+                        message: "Title can't be null!",
+                        type: "error",
+                        duration: 800
+                    });
                 } else {
-                    if (this.article.title === '') {
-                        Message({
-                            message: "Title can't be null!",
-                            type: "error",
-                        });
+                    this.article.bodyHtml = render;
+                    this.article.bodyMd = val;
+                    this.article.author = this.$store.user.name;
+                    this.article.state = 'draft';
+                    this.article.categoryId = this.categoryMap[this.article.categoryName];
+                    if (this.$route.params["id"] !== undefined) {
+                        editArticle(this.$route.params["id"], this.article);
                     } else {
-                        this.article.bodyHtml = render;
-                        this.article.bodyMd = val;
-                        this.article.author = this.$store.user.name;
-                        this.article.state = 'draft';
                         postArticle(this.article);
                     }
-                }
 
-                console.log(val);
-                console.log(render);
+                }
             },
             post() {
-                if (this.$route.params["id"] !== undefined) {
-                    if (this.article.title === '') {
-                        Message({
-                            message: "Title can't be null!",
-                            type: "error",
-                            duration: 800
-                        });
+                if (this.article.title === '') {
+                    Message({
+                        message: "Title can't be null!",
+                        type: "error",
+                        duration: 800
+                    });
 
-                    } else {
-                        this.article.author = this.$store.state.user.name;
-                        this.article.state = 'published';
-                        console.log("edit article" + this.article);
+                } else {
+                    this.article.author = this.$store.state.user.name;
+                    this.article.state = 'published';
+                    this.article.categoryId = this.categoryMap[this.article.categoryName];
+                    console.log("edit article" + this.article);
+                    if (this.$route.params["id"] !== undefined) {
                         editArticle(this.$route.params["id"], this.article).then(response => {
                             if (response.code === 200) {
                                 Message({
@@ -140,19 +166,7 @@
                                 })
                             }
                         })
-                    }
-                } else {
-                    if (this.article.title === '') {
-                        Message({
-                            message: "Title can't be null!",
-                            type: "error"
-                        });
                     } else {
-                        // this.article.bodyHtml = render;
-                        // this.article.bodyMd = val;
-                        this.article.author = this.$store.state.user.name;
-                        this.article.state = 'published';
-                        console.log(this.article);
                         postArticle(this.article).then(response => {
                             if (response.code === 200) {
                                 Message({
@@ -181,9 +195,15 @@
     top: 0;
     width: 100%;
     height: 50px;
+    background: wheat;
+  }
+  .tag-bar {
+    position: relative;
+    top: 50px;
+    height: auto;
+    width: 100%;
     background: whitesmoke;
   }
-
   #title-input {
     /*height: 65px;*/
     position: fixed;
@@ -193,6 +213,10 @@
     margin-left: 20rem;
   }
 
+  .bar-tab2{
+    left: 58%;
+    position: relative;
+  }
   .mavonEditor {
     position: fixed;
     /*width: 800px;*/

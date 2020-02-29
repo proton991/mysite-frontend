@@ -29,7 +29,12 @@
               </h3>
             </b-card-title>
             <b-card-sub-title class="mb-3 mt-3">
-              <span>author: {{ getAuthorStr(article.authors) }} | views: {{article.views}} | published time: {{ formatTime(article.createTime)}}</span>
+              <span>
+                author: {{ getAuthorStr(article.authors) }}
+                | views: {{article.views}}
+                | published time: {{ formatTime(article.createTime)}}
+                | <span style="color: red">Category: {{article.extra.category.categoryName}}</span>
+              </span>
               <span style="float: right">
                 <router-link
                         :to="{ name: 'articles', params: { id: article.articleId }}"
@@ -87,9 +92,10 @@
         },
         data() {
             return {
+                categoryId: '',
                 articles: [
                 ],
-                pageConfig: {pageSize: 3, currentPage: 1, totalPages: 0}
+                pageConfig: {pageSize: 4, currentPage: 1, totalPages: 0}
             }
 
         },
@@ -145,7 +151,6 @@
             getCurrentPageArticles() {
                 getArticlePage(this.pageConfig.currentPage, this.pageConfig.pageSize).then(response => {
                     const {data} = response;
-                    console.log(data);
                     this.articles = data.articles;
                     this.pageConfig.totalPages = data.totalPages;
                 });
@@ -154,28 +159,31 @@
                 // eslint-disable-next-line no-debugger
                 // debugger
                 this.pageConfig.currentPage = page;
-                this.getCurrentPageArticles();
+                this.filterArticleByCtg(this.categoryId);
+                // this.getCurrentPageArticles();
                 // console.log("after change page is father component");
                 // console.log(this.getCurrentPageArticles());
             },
             filterArticleByCtg(id) {
+
+                this.categoryId = id;
+                console.log("this.categoryId is : " + this.categoryId);
                 if (id === -1) {
                     this.getCurrentPageArticles();
                 }
-                filterByCtg(id, this.pageConfig.currentPage, this.pageConfig.totalPages).then(response => {
+                filterByCtg(id, this.pageConfig.currentPage, this.pageConfig.pageSize).then(response => {
                     const {data} = response;
                     this.articles = data.articles;
                     this.pageConfig.totalPages = data.totalPages;
-                })
+                });
             }
         },
         mounted: function () {
             getArticlePage(this.pageConfig.currentPage, this.pageConfig.pageSize).then(response => {
                 const {data} = response;
-                console.log(data);
-
                 this.articles = data.articles;
                 this.pageConfig.totalPages = data.totalPages;
+                console.log(this.articles)
             });
 
 

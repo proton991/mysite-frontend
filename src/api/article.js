@@ -77,5 +77,35 @@ export function filterByCtg(id, page, size) {
             'size': size
         }
     })
+}
 
+export function newCtg(name) {
+    return request({
+        url: '/api/articleCategory/new',
+        method: 'post',
+        params: {
+            'name': name
+        }
+    })
+}
+
+export function editCtg(id, name) {
+    return request({
+        url: '/api/articleCategory/edit',
+        method: 'post',
+        params: {
+            'id': id,
+            'category': name
+        }
+    })
+}
+
+export function deleteCtg(id) {
+    return request({
+        url: '/api/articleCategory/delete',
+        method: 'post',
+        params: {
+            'id': id,
+        }
+    })
 }

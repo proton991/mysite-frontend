@@ -9,12 +9,13 @@
             <h1>{{ article['title']}}</h1>
           </b-card-title>
           <b-card-sub-title>
-            <h4>
+            <h5>
               &nbsp;&nbsp;Author: {{ article["authors"]}}&nbsp;&nbsp;
               |&nbsp;&nbsp;Published Time: {{article["createTime"]}}&nbsp;&nbsp;
               |&nbsp;&nbsp;Last Updated Time: {{article["updateTime"]}}
               |&nbsp;&nbsp;Views: {{article["views"]}}
-            </h4>
+              |&nbsp;&nbsp;<span style="color: red">Category: {{article.extra.category.categoryName}}</span>
+            </h5>
           </b-card-sub-title>
           <el-divider></el-divider>
           <b-card-text v-highlight v-html="article['bodyHtml']">

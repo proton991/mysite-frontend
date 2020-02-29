@@ -36,7 +36,7 @@
         },
         methods: {
             filterByCtg(id) {
-                console.log(id)
+                console.log(id);
                 this.$emit('change', id);
             }
         }
