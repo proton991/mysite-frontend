@@ -59,16 +59,17 @@ module.exports = {
             msTileImage: './iconAvg.png'
         }
     },
-    // devServer: {
-    //     proxy: {
-    //         '/api': {
-    //             ws: true,
-    //             target: 'http://localhost:8080',
-    //             changeOrigin: true,
-    //             pathRewrite: {
-    //                 '^/api': '/api'
-    //             }
-    //         }
-    //     }
-    // }
+    devServer: {
+        port: 8088,
+        proxy: {
+            '/api': {
+                ws: true,
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': '/api'
+                }
+            }
+        }
+    }
 };

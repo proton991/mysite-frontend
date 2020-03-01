@@ -17,7 +17,8 @@ export const constantRoutes = [
         meta: {
             bgParticle: true,
             keepAlive: true,
-            title: 'Home'
+            title: 'Home',
+            isOverview: false
         }
     },
     {
@@ -27,7 +28,8 @@ export const constantRoutes = [
         meta: {
             bgParticle: true,
             title: 'Login',
-            keepAlive: false
+            keepAlive: false,
+            isOverview: false
         }
     },
     {
@@ -37,7 +39,8 @@ export const constantRoutes = [
         meta: {
             bgParticle: false,
             title: 'MarkdownEditor',
-            keepAlive: false
+            keepAlive: false,
+            isOverview: false
         }
     },
     {
@@ -48,7 +51,8 @@ export const constantRoutes = [
         meta: {
             bgParticle: false,
             title: 'MarkdownEditor',
-            keepAlive: false
+            keepAlive: false,
+            isOverview: false
         }
     },
     {
@@ -58,7 +62,8 @@ export const constantRoutes = [
         meta: {
             bgParticle: true,
             title: 'AboutMe',
-            keepAlive: true
+            keepAlive: true,
+            isOverview: false
         }
     },
     {
@@ -68,7 +73,8 @@ export const constantRoutes = [
         meta: {
             bgParticle: true,
             title: 'ContactMe',
-            keepAlive: true
+            keepAlive: true,
+            isOverview: false
         }
     },
     {
@@ -78,7 +84,8 @@ export const constantRoutes = [
         meta: {
             title: 'Articles',
             bgParticle: false,
-            keepAlive: true
+            keepAlive: true,
+            isOverview: true
         }
     },
     {
@@ -89,7 +96,8 @@ export const constantRoutes = [
         meta: {
             title: 'Article',
             bgParticle: true,
-            keepAlive: true
+            keepAlive: true,
+            isOverview: false
         }
     },
     {
@@ -100,7 +108,8 @@ export const constantRoutes = [
         meta: {
             title: 'Console',
             bgParticle: false,
-            keepAlive: true
+            keepAlive: true,
+            isOverview: false
         }
     },
     {
@@ -111,7 +120,8 @@ export const constantRoutes = [
         meta: {
             title: 'Console',
             bgParticle: false,
-            keepAlive: true
+            keepAlive: true,
+            isOverview: false
         }
     },
     {
@@ -122,7 +132,8 @@ export const constantRoutes = [
         meta: {
             title: 'Console',
             bgParticle: false,
-            keepAlive: true
+            keepAlive: true,
+            isOverview: false
         }
     }
     // {

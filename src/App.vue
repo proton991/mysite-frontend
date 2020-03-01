@@ -1,5 +1,4 @@
 <template>
-
   <div id="app">
     <keep-alive v-if="$route.meta.keepAlive">
       <header-nav></header-nav>
@@ -24,9 +23,16 @@
       >
       </vue-particles>
     </keep-alive>
+    <keep-alive>
+      <router-view  v-if="$route.meta.isOverview">
+      </router-view>
+    </keep-alive>
+      <router-view  v-if="!$route.meta.isOverview">
 
-    <router-view>
-    </router-view>
+      </router-view>
+
+
+
   </div>
 </template>
 

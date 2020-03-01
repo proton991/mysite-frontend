@@ -1,10 +1,9 @@
 <template>
   <b-container fluid="true" class="article-container">
     <b-row cols="1">
-<!--      <b-col cols="2" class="left-blank">-->
-<!--      </b-col>-->
       <b-col cols="9" class="article">
-        <b-card class="mt-3 mb-5">
+        <b-button variant="primary" size="lg" class="mb-3" @click="pageBack"><b-icon icon="arrow-left"></b-icon>Back</b-button>
+        <b-card>
           <b-card-title>
             <h1>{{ article['title']}}</h1>
           </b-card-title>
@@ -21,6 +20,7 @@
           <b-card-text v-highlight v-html="article['bodyHtml']">
           </b-card-text>
         </b-card>
+        <b-button variant="dark" @click="pressLike" ><b-icon icon="heart"></b-icon>Like</b-button>
       </b-col>
 <!--      <b-col cols="1" class="right-blank">-->
 <!--      </b-col>-->
@@ -39,6 +39,7 @@
             }
         },
         mounted: function () {
+
             getArticleById(this.$route.params.id).then(response => {
                 const {data} = response;
                 this.article = data;
@@ -53,7 +54,15 @@
                 this.article.updateTime = formatTime(this.article.updateTime, "");
                 console.log(this.article)
             });
-            //
+        },
+        methods: {
+            pressLike() {
+
+            },
+            pageBack() {
+                history.back();
+              // this.$router.go(-1);
+            }
         }
 
     }
@@ -61,24 +70,24 @@
 
 <style scoped>
   .article-container {
-    /*overflow: -moz-scrollbars-vertical;*/
+    /*overflow-x: hidden;*/
   }
   .article {
+
     overflow-y: scroll;
+    /*overflow-y: scroll;*/
     /*white-space: nowrap;*/
     top: 65px;
-    width: 100%;
     background: whitesmoke;
-    height: 90%;
+    height: 100%;
     left: 15%;
-    position: fixed;
+    position: absolute;
   }
 
   .left-blank {
-    left: 0;
-    height: 100%;
-    position: fixed;
-    background: indianred;
+    top: 65px;
+    height: 50%;
+    position: relative;
   }
 
   .right-blank {

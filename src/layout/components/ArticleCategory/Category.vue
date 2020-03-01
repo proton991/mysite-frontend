@@ -6,13 +6,19 @@
 
     <b-list-group style="text-align: center">
       <b-list-group-item>
-        <a href="javascript:void(0)" @click="filterByCtg(-1)">ALL</a>
+        <a href="javascript:void(0)" @click="filterByCtg(-1)" :class="{active : -1 === currentId}">ALL</a>
       </b-list-group-item>
       <b-list-group-item
               v-for="category in categories"
               :key="category.categoryId"
       >
-        <a href="javascript:void(0)" @click="filterByCtg(category.categoryId)">{{category.categoryName}}</a>
+        <a
+                href="javascript:void(0)"
+                :class="{active : category.categoryId === currentId}"
+                @click="filterByCtg(category.categoryId)"
+        >
+          {{category.categoryName}}
+        </a>
       </b-list-group-item>
     </b-list-group>
   </div>
@@ -25,6 +31,7 @@
         name: "Category",
         data() {
             return {
+                currentId: '',
                 categories: []
             }
         },
@@ -36,6 +43,7 @@
         },
         methods: {
             filterByCtg(id) {
+                this.currentId = id;
                 console.log(id);
                 this.$emit('change', id);
             }
@@ -55,6 +63,11 @@
     width: 80%;
   }
 
+  .category-nav a.active{
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
   /*.category-nav li {*/
   /*  list-style: none;*/
   /*  text-decoration: none;*/

@@ -67,14 +67,15 @@ export function getArticleCategory() {
     })
 }
 
-export function filterByCtg(id, page, size) {
+export function filterByCtg(id, page, size, property) {
     return request({
         url: '/api/articleListByCtg',
         method: 'get',
         params: {
             'categoryId': id,
             'page': page,
-            'size': size
+            'size': size,
+            'sort': property
         }
     })
 }
@@ -106,6 +107,21 @@ export function deleteCtg(id) {
         method: 'post',
         params: {
             'id': id,
+        }
+    })
+}
+
+export function filterArticle(filter, page, size) {
+    return request({
+        url: '/api/filterArticles',
+        method: 'post',
+        data: filter,
+        params: {
+            'page': page,
+            'size': size,
+        },
+        headers: {
+            'Content-Type': 'application/json',
         }
     })
 }

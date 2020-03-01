@@ -3,7 +3,10 @@
     <div id="sidebar-wrapper">
       <b-form-group>
         <b-form-input placeholder="Search Article..." v-model="keyword">Search Article</b-form-input>
-        <b-button style="float: right">Search<b-icon icon="search"></b-icon></b-button>
+        <b-button style="float: right" @click="searchArticle">
+          Search
+          <b-icon icon="search"></b-icon>
+        </b-button>
       </b-form-group>
       <span class="h4">Search Results: </span>
       <br>
@@ -23,7 +26,14 @@
                 keyword: '',
                 relativeArticles: 0
             }
-        }
+        },
+      methods: {
+          searchArticle() {
+            this.$emit('change', this.keyword);
+
+          }
+
+      }
     }
 </script>
 

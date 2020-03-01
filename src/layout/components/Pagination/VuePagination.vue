@@ -130,7 +130,6 @@
 
   ul.pagination {
     display: inline-block;
-    position: relative;
     /*padding: 0;*/
     /*margin: 0;*/
   }
